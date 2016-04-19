@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en" ng-app="myApp" class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>My AngularJS App</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
+    <link rel="stylesheet" href="app.css">
+    <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
+
+<body ng-controller="mainCtrl">
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-facebook/lib/angular-facebook.js"></script>
+    <script src="app.js"></script>
+    <div class="wide-container">
+        <div class="inner">
+            <h1>$5 for Ecuador</h1>
+            <div class="steps">
+                <div class="left">
+                    <h3>Step 1: Login with facebook</h3>
+                    <p>* We won't post anything on your behalf.</p>
+                    <div id="im">
+                        <div class="box">
+                            ?
+                        </div>
+                    </div>
+                    <div class="fb-login-button" onlogin="getLoginStatus(false)" data-max-rows="1" data-size="large" data-show-faces="false" data-auto-logout-link="true"></div>
+                    <h3>Step 2: Donate</h3>
+                    <button class="btn btn-success btn-lg" ng-click="donated()" >Donate</button>
+                    <div>
+                      <span>Did you donate? </span><input type="checkbox" ng-model="didDonate" />
+                      <div ng-show="didDonate">
+                        <span>How much? </span><input type="text" ng-model="amount" />
+                      </div>
+                      <button>Add me</button>
+                      <button class="btn btn-primary" ng-click="sendData()">Send</button>
+                    </div>
+                </div>
+                <div class="right">
+                    <h3>Step 3: Update your profile picture</h3>
+                    <div ng-show="!loggedIn" class="box-big">
+                        ?
+                    </div>
+                    <img id="img2" style="display: none;" src="images/ecuador_flag.png" />
+                    <canvas id="canvas400" ng-show="loggedIn"></canvas>
+                    <button class="btn btn-primary" ng-click="saveImage()">Download</button>
+                    <canvas id="canvas1200" style="display:none"></canvas>
+                    <div id="converted">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- In production use:
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+    -->
+    <div id="fb-root"></div>
+    <script>
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v2.6";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <script type="text/javascript">
+    function getLoginStatus(login) {
+        var scope = angular.element(document.body).scope();
+        scope.$apply(function() {
+            scope.getLoginStatus(login);
+        });
+    }
+    </script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+</body>
+
+</html>
