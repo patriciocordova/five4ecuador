@@ -9,8 +9,8 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>My AngularJS App</title>
-    <meta name="description" content="">
+    <title>$5 for Ecuador</title>
+    <meta name="description" content="Help the people affected by the earthquake of 2016/01/16 in Ecuador.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
     <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
@@ -20,46 +20,186 @@
 
 <body ng-controller="mainCtrl">
     <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.min.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/angular-facebook/lib/angular-facebook.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="app.js"></script>
     <div class="wide-container">
         <div class="inner">
-            <h1>$5 for Ecuador</h1>
+            <img src="images/logo.png" height="150px" />
+            <h4 style="color: #EC8F00;margin:0px auto; text-align: justify; width: 600px">On Saturday night (April 16th, 2016, 6:58pm) a <b>7.8 magnitude earthquake</b> hit the coast of Ecuador. Reports of lost lives rise up to 355 and over 2,000 people are wounded. Help us help.</h4>
+            <h5>These are the organizations we support:</h5>
+            <table class="t-orgs" style="">
+                <tr>
+                    <td>
+                        <a href="https://www.ammado.com/community/175375/donate" target="_blank">Red Cross Ecuador</a>
+                    </td>
+                    <td>
+                        <a href="https://www.unicefusa.org/donate/support-unicefs-earthquake-relief-efforts-ecuador/30257" target="_blank">UNICEF</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="https://donate.unhcr.org/int-en/ecuador-earthquake/" target="_blank">UN Refugee Agency</a>
+                        </li>
+                        <td>
+                            <a href="https://app.mobilecause.com/form/URWR5Q" target="_blank">UN Development Program</a>
+                        </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="https://donate.oxfam.org.uk/emergency/ecuador" target="_blank">Oxfam</a>
+                    </td>
+                    <td>
+                        <a href="http://www.care.org/newsroom/press/press-releases/earthquake-ecuador" target="_blank">Care</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="https://www.generosity.com/emergencies-fundraising/ecuador-earthquake-emergency-relief--2/x/13842078" target="_blank">Global Shapers Quito</a>
+                    </td>
+                    <td>
+                        <a href="http://www.donaconcorazon.org/#!home-en/wfgti" target="_blank">Nobis Foundation</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="http://www.worldvision.ca/give-a-gift/Pages/ecuador-earthquake.aspx" target="_blank">World Vision</a>
+                    </td>
+                    <td>
+                        <a href="http://www.eluniverso.com/noticias/2016/04/17/nota/5531106/quiere-ayudar-estas-son-opciones-donaciones-terremoto-ecuador" target="_blank">More (Spanish)...</a>
+                    </td>
+                </tr>
+            </table>
+            <br/>
             <div class="steps">
                 <div class="left">
                     <h3>Step 1: Login with facebook</h3>
+                    <h5>So that we can creat a great profile picture for you</h5>
                     <p>* We won't post anything on your behalf.</p>
+                    <div class="fb-login-button" onlogin="getLoginStatus(false)" data-max-rows="1" data-size="large" data-show-faces="false" data-auto-logout-link="true"></div>
+                    <br/>
+                    <br/>
                     <div id="im">
                         <div class="box">
                             ?
                         </div>
                     </div>
-                    <div class="fb-login-button" onlogin="getLoginStatus(false)" data-max-rows="1" data-size="large" data-show-faces="false" data-auto-logout-link="true"></div>
-                    <h3>Step 2: Donate</h3>
-                    <button class="btn btn-success btn-lg" ng-click="donated()" >Donate</button>
-                    <div>
-                      <span>Did you donate? </span><input type="checkbox" ng-model="didDonate" />
-                      <div ng-show="didDonate">
-                        <span>How much? </span><input type="text" ng-model="amount" />
-                      </div>
-                      <button>Add me</button>
-                      <button class="btn btn-primary" ng-click="sendData()">Send</button>
+                    <h3>Step 2 (optional): Let us know how much you contributed and where</h3>
+                    <h5>You will get a donor number in your the profile picture! Pd. You need to log in.</h5>
+                    <button class="btn btn-success btn-lg" ng-disabled="!loggedIn" onclick="openModal()">I donated</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">My Contribution</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <h5>Who did you support?</h5>
+                                    <table class="t-support">
+                                        <tr>
+                                            <td>
+                                                <input id="rc-rd" name="org" type="radio" ng-model="site" value="redcross">
+                                                <a href="https://www.ammado.com/community/175375/donate" onclick="clickedDonation('rc-rd')" target="_blank">Red Cross Ecuador</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input id="un-rd" name="org" type="radio" ng-model="site" value="unicef">
+                                                <a href="https://www.unicefusa.org/donate/support-unicefs-earthquake-relief-efforts-ecuador/30257" onclick="clickedDonation('un-rd')" target="_blank">UNICEF</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input id="unhr-rd" name="org" type="radio" ng-model="site" value="unhr">
+                                                <a href="https://donate.unhcr.org/int-en/ecuador-earthquake/" onclick="clickedDonation('unhr-rd')" target="_blank">UN Refugee Agency</a>
+                                                </li>
+                                                <tr>
+                                                    <td>
+                                                        <input id="undp-rd" name="org" type="radio" ng-model="site" value="undp">
+                                                        <a href="https://app.mobilecause.com/form/URWR5Q" onclick="clickedDonation('undp-rd')" target="_blank">UN Development Program</a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <input id="ox-rd" name="org" type="radio" ng-model="site" value="oxfam">
+                                                        <a href="https://donate.oxfam.org.uk/emergency/ecuador" onclick="clickedDonation('ox-rd')" target="_blank">Oxfam</a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <input id="ca-rd" name="org" type="radio" ng-model="site" value="care">
+                                                        <a href="http://www.care.org/newsroom/press/press-releases/earthquake-ecuador" onclick="clickedDonation('ca-rd')" target="_blank">Care</a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <input id="gs-rd" name="org" type="radio" ng-model="site" value="gs">
+                                                        <a href="https://www.generosity.com/emergencies-fundraising/ecuador-earthquake-emergency-relief--2/x/13842078" onclick="clickedDonation('gs-rd')" target="_blank">Global Shapers Quito</a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <input id="no-rd" name="org" type="radio" ng-model="site" value="nobis">
+                                                        <a href="http://www.donaconcorazon.org/#!home-en/wfgti" onclick="clickedDonation('no-rd')" target="_blank">Nobis Foundation</a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <input id="wv-rd" name="org" type="radio" ng-model="site" value="wv">
+                                                        <a href="http://www.worldvision.ca/give-a-gift/Pages/ecuador-earthquake.aspx" onclick="clickedDonation('wv-rd')" target="_blank">World Vision</a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <a href="http://www.eluniverso.com/noticias/2016/04/17/nota/5531106/quiere-ayudar-estas-son-opciones-donaciones-terremoto-ecuador" target="_blank">More (Spanish)...</a>
+                                                    </td>
+                                                </tr>
+                                    </table>
+                                    <br/>
+                                    <div ng-show="donated == 'true' && !userDonated">
+                                        <br/>
+                                        <input type="number" id="am" ng-model="amount" ng-disabled="disclose" placeholder="How much?" />
+                                        <br/>
+                                        <input type="checkbox" id="c1" ng-model="disclose" />
+                                        <label for="c1">I don't want to disclose it</label>
+                                    </div>
+                                </div>
+                                <div class="modal-footer" style="text-align: center">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="button" ng-disabled="saveClicked || donated != 'true' || (amount <= 0 && !disclose)" class="btn btn-success" ng-click="saveUser()">Give me a donor #!</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="right">
-                    <h3>Step 3: Update your profile picture</h3>
+                    <h3>Step 3: Spread the word!</h3>
+                    <h5>Update your Facebook profile picture so that everybody knows that you support our cause!</h5>
                     <div ng-show="!loggedIn" class="box-big">
                         ?
                     </div>
                     <img id="img2" style="display: none;" src="images/ecuador_flag.png" />
                     <canvas id="canvas400" ng-show="loggedIn"></canvas>
-                    <button class="btn btn-primary" ng-click="saveImage()">Download</button>
+                    <button class="btn btn-success btn-lg" ng-click="saveImage()" ng-disabled="!loggedIn">Download</button>
+                    <p ng-show="downloadError.length > 0" style="color: orange; font-size: 0.8em; padding-top: 10px; width: 80%; margin: 0px auto">{{ downloadError }}</p>
                     <canvas id="canvas1200" style="display:none"></canvas>
                     <div id="converted">
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="footer">
+            Built by an <a href="http://twitter.com/andrscordova" target="_blank">Ecuadorian in Canada</a> to help raise funds and support the people affected by the earthquake of 2016/04/16 in Ecuador. Site tested in Google Chrome and Mozilla Firefox.
         </div>
     </div>
     <!-- In production use:
@@ -77,18 +217,47 @@
     }(document, 'script', 'facebook-jssdk'));
     </script>
     <script type="text/javascript">
+    $.ajaxSetup({
+        cache: false
+    });
+
     function getLoginStatus(login) {
         var scope = angular.element(document.body).scope();
         scope.$apply(function() {
             scope.getLoginStatus(login);
         });
     }
+
+    function clickedDonation(site) {
+        var scope = angular.element(document.body).scope();
+        $('#' + site).prop('checked', true);
+    }
+
+    function openModal() {
+        $('#myModal').modal('toggle');
+        return true;
+    }
+
+    $('#r2').on('click change', function(e) {
+        $('#myModal').modal('hide');
+    });
     </script>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <script>
+    (function(i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function() {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-76692410-1', 'auto');
+    ga('send', 'pageview');
+    </script>
 </body>
 
 </html>

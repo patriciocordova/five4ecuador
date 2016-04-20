@@ -7,14 +7,18 @@ html{
 }
 
 body{
-  background-color: #000000;
-  background-image: url("images/back.jpg");
+  background-color: white;
+  /*background-image: url("images/back.jpg");*/
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
   background-repeat: no-repeat;
   width: 100%;
   height: 100%;
+}
+
+.inner{
+  text-align: center;
 }
 
 .wide-container{
@@ -74,4 +78,44 @@ body{
 
 #img1, #canvas400{
   border: 2px solid #DDD;
+}
+
+.donors-table td{
+  padding: 10px 30px;
+}
+#donors{
+  width: 100%;
+  border: 0px solid;
+}
+#donors table td{
+  padding: 10px;
+}
+
+.footer{
+  margin: 0px solid;
+  margin-top: 50px;
+  text-align: center;
+  color: #555;
+  font-size: 0.8em;
+  width: 100%;
+  padding: 0px 20%;
+}
+
+#am{
+  width: 300px;
+  text-align: center;
+  font-size: 1.3em;
+}
+
+.t-support{
+  text-align: left;
+  margin: 0px auto;
+}
+
+.t-orgs{
+  margin: 0px auto; text-align: left;
+}
+
+.t-orgs td{
+  padding: 0px 10px;
 }
